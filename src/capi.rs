@@ -463,7 +463,7 @@ pub unsafe extern "C" fn biscuit_builder_build<'a>(
     seed.copy_from_slice(slice);
 
     let mut rng: StdRng = SeedableRng::from_seed(seed);
-    (*builder).0.clone().build(&mut rng).map(Biscuit).map(Box::new).ok()
+    (*builder).0.build(&mut rng).map(Biscuit).map(Box::new).ok()
 }
 
 #[no_mangle]

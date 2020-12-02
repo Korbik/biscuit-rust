@@ -225,19 +225,19 @@ impl<'a> BiscuitBuilder<'a> {
         self.context = Some(context);
     }
 
-    pub fn build<R: RngCore + CryptoRng>(mut self, rng: &'a mut R) -> Result<Biscuit, error::Token> {
-        let new_syms = SymbolTable { symbols: self.symbols.symbols.split_off(self.symbols_start) };
+    pub fn build<R: RngCore + CryptoRng>(&self, rng: &'a mut R) -> Result<Biscuit, error::Token> {
+        let new_syms = SymbolTable { symbols: self.symbols.clone().symbols.split_off(self.symbols_start) };
 
         let authority_block = Block {
             index: 0,
             symbols: new_syms,
-            facts: self.facts,
-            rules: self.rules,
-            caveats: self.caveats,
-            context: self.context,
+            facts: self.facts.clone(),
+            rules: self.rules.clone(),
+            caveats: self.caveats.clone(),
+            context: self.context.clone(),
         };
 
-        Biscuit::new(rng, self.root, self.symbols, authority_block)
+        Biscuit::new(rng, self.root, self.symbols.clone(), authority_block)
     }
 }
 
